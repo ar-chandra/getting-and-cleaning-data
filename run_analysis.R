@@ -9,11 +9,10 @@ rm(test.data)
 
 # 2. Extract only the measurements on the mean and standard deviation for each
 # measurement.
-means <- sapply(tidydata1, mean, na.rm = T)
-sds <- sapply(tidydata1, sd, na.rm = T)
-means.and.sds <- cbind(means, sds)
-rm(means)
-rm(sds)
+
+feature.variables <- read.table("features.txt")
+mean.std.col.nums <- grep("mean|std",feature.variables$V2)
+tidydata1 <- tidydata1[ ,mean.std.col.nums]
 
 
 # 3. Use descriptive activity names to name the activities in the data set
@@ -28,14 +27,14 @@ names(activity.labels) <- c("activity.id", "activity")
 activity.columns <- inner_join(training.test.activities, activity.labels)
 rm(training.test.activities)
 rm(activity.labels)
-tidydata1 <- cbind(tidydata1, activity.columns)
+tidydata1 <- cbind(tidydata1, activity.columns$activity)
 rm(activity.columns)
 
 
 # 4. Appropriately label the data set with descriptive variable names.
-feature.variables <- read.table("features.txt")
-names(tidydata1) <- feature.variables$V2
-colnames(tidydata1)[562:563] <- c("activity.id", "activity")
+# feature.variables <- read.table("features.txt")
+names(tidydata1) <- feature.variables$V2[mean.std.col.nums]
+colnames(tidydata1)[80] <- c("activity")
 rm(feature.variables)
 
 # 5. From the data set in step 4, create a second, independent tidy data set with
@@ -53,11 +52,13 @@ rm(training.test.subjects)
 
 # tidydata1[1312:1320, ]$subject
 # tidydata1[1312:1320, ]$activity
-# tidydata1[1312:1319,560:564]
+# tidydata1[1312:1319,75:81]
 
 
 tidydata2 <- aggregate(tidydata1,
                    list(activity1 = tidydata1$activity, subject1 = tidydata1$subject), mean)
+
+tidydata2 <- tidydata2[ , !(names(tidydata2) %in% c("subject", "activity"))]
 
 colnames(tidydata2)[which(names(tidydata2) == "subject1")] <- "subject"
 colnames(tidydata2)[which(names(tidydata2) == "activity1")] <- "activity"

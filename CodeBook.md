@@ -20,7 +20,7 @@ The script expects you set your working directory to the folder where you extrac
 
 tidydata1 - First we are going to read the test and training set data and merge them into one dataset.
 
-means.and.sds - Next we calculate the mean and standard deviation of each variable of the merged dataset and create a subset with these two columns.
+mean.std.col.nums - Next we get only the column of the nature of 'mean' or 'standard deviation' of the recorded variables. This we do by subsetting the column name vector by looking at the words mean or std. We then filter out the tidydata1 with the column numbers we obtained. At the end of this, the tidydata1 will only have values of the nature of mean or standard deviation.
 
 Next, to the same tidydata1 we add a column indicating which activity does each row of data represent. The activities are:
 1 WALKING
@@ -30,12 +30,12 @@ Next, to the same tidydata1 we add a column indicating which activity does each 
 5 STANDING
 6 LAYING
 
-Next, in the same tidydata1 we rename the columns with appropriate names that we find in the features.txt file given in the data folder.
+Next, in the same tidydata1 we rename the columns with appropriate names that we extracted in step 2. We only have to add the mean/std column names.
 
-The next step is to add experiment 'Subject' information for each row of data. There were 30 subjects used in the experiment, and each row represents values obtained from one subject performing one activity.
+The next step is to add experiment 'subject' information for each row of data. There were 30 subjects used in the experiment, and each row represents values obtained from one subject performing one activity.
 
 tidydata2 - Finally, we create a new dataset which will contain only the average of values for each variable per activity and per subject.
 
 ### Output
 
-We write out the tidydata2 into a txt file and name it descriptively as tidy_data_step5.txt to be uploaded for automatic evaluation.
+We write out the tidydata2 into a txt file and name it descriptively as tidy_data_step5.txt to be uploaded for evaluation.
